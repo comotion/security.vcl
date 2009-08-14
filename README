@@ -1,0 +1,70 @@
+Security.VCL
+
+This is work in progress. This was (as is too common) developed internally
+and thrown into a public repository. Use at your own discretion.
+
+=================================
+1. About Security.VCL
+2. Basic usage
+3. The Architecture
+4. Handlers
+=================================
+
+
+1. About Security.VCL
+=====================
+
+Security.VCL aims to provide:
+ - A standardized framework for security-related filters
+ - Several core rule-sets
+ - A tool to generate Security.VCL modules from mod_security rules.
+ - A limited set of default 'handlers', for instance CGI scripts to call
+   upon when Bad Stuff happens.
+
+This is done mainly by using clever VCL, and with as little impact on
+normal operation as possible. The incident handlers are mainly CGI-like
+scripts on a backend.
+
+2. Basic usage
+==============
+
+To use Security.VCL, you currently have to:
+
+$ cd vcl/
+$ make
+$ cd ..
+$ cp -a vcl/ /etc/varnish/security.vcl/ 
+ (alternatively you could symlink it, of course).
+
+Then you edit your normal VCL and add this line near the top:
+
+	include "/etc/varnish/security.vcl/main.vcl";
+
+At this point, you should only need to reload your varnish configuration.
+You may have to or want to modify main.vcl to fit your needs. At the
+moment, paths are hardcoded.
+
+3. The Architecture
+===================
+
+Security.VCL currently have two categories of rules: rules generated from
+mod_security, located in vcl/breach/ and our own rules, vcl/modules/.
+
+Security.VCL works by including all modules, then defining a number of
+standard functions. Each module will call sec_sevN, where N is the
+severity, which in turn typically calls error or some other handler.
+
+4. Handlers
+===========
+
+Handlers are still not well developed, but the general concept is that
+Security.VCL either throws an error (vcl_error) of some kind, which can
+potentially redirect the client or do any other synthetic response, or
+Security.VCL can rewrite the original request and send it to a backend
+designed to do more clever things, like:
+
+- Block the client in a firewall
+- Log the event
+- Test-run the code.
+- Paint you a pretty picture....
+- ....
