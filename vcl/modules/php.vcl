@@ -89,6 +89,13 @@ sub vcl_recv {
                 call sec_php_sev1;
         }
 
+        if (req.url ~ "_PHPLIB\[") {
+                set req.http.X-SEC-RuleName = "Manipulation of Predefined Variable _PHPLIB";
+                set req.http.X-SEC-RuleId   = "13";
+                set req.http.X-SEC-RuleInfo = "Manipulation of Predefined Variable: _PHPLIB";
+                call sec_php_sev1;
+        }
+
 # One could make one long regexp with common php statements. For now:
 
         # Generic check for code execution
