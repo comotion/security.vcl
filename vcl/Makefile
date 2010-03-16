@@ -38,4 +38,3 @@ build/variables.vcl: VARIABLES
 	@../tools/generate_variables
 	@echo "done"
 
-
