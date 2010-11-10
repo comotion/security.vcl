@@ -36,14 +36,14 @@ include "/etc/varnish/security/modules/request.vcl";
 
 #include "/etc/varnish/security/modules/user-agent.vcl";
 
-include "/etc/varnish/security/breach/20_protocol_violations.vcl";
-include "/etc/varnish/security/breach/21_protocol_anomalies.vcl";
-include "/etc/varnish/security/breach/23_request_limits.vcl";
-include "/etc/varnish/security/breach/30_http_policy.vcl";
-include "/etc/varnish/security/breach/35_bad_robots.vcl";
-include "/etc/varnish/security/breach/40_generic_attacks.vcl";
-include "/etc/varnish/security/breach/45_trojans.vcl";
-include "/etc/varnish/security/breach/50_outbound.vcl";
+#include "/etc/varnish/security/breach/20_protocol_violations.vcl";
+#include "/etc/varnish/security/breach/21_protocol_anomalies.vcl";
+#include "/etc/varnish/security/breach/23_request_limits.vcl";
+#include "/etc/varnish/security/breach/30_http_policy.vcl";
+#include "/etc/varnish/security/breach/35_bad_robots.vcl";
+#include "/etc/varnish/security/breach/40_generic_attacks.vcl";
+#include "/etc/varnish/security/breach/45_trojans.vcl";
+#include "/etc/varnish/security/breach/50_outbound.vcl";
 
 /* The value of '800' and up is used because it is not actual HTTP error
  * codes. They should not be exposed. 
