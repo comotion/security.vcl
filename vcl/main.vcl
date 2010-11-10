@@ -65,7 +65,7 @@ sub vcl_error {
 		set obj.status = 302;
 		set obj.response = "Redirected for fun and profit";
 		set obj.http.Location = "http://images.google.com/images?q=llama";
-		deliver;
+		return (deliver);
 	}
 }
 

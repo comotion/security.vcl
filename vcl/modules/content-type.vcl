@@ -12,7 +12,7 @@ sub vcl_recv {
         if(( req.request == "GET" || req.request == "HEAD" )
         # Content-type: application/x-www-form-urlencoded; charset=utf-8
 #          && req.http.Content-Type ~ "(?:^(?:application\/x-www-form-urlencoded(?:;(?:\s?charset\s?=\s?[\w\d\-]{1,18})?)??$|multipart/form-data;)|text/xml)" ) {
-          && req.http.Content-Type ~ "application\/x-www-form-urlencoded;(\s?charset\s?=\s?[\w\d\-]{1,18})?)??$|multipart/form-data;)|text/xml)" ) {
+          && req.http.Content-Type ~ "application\/x-www-form-urlencoded;(\s?charset\s?=\s?[\w\d\-]{1,18})?|multipart/form-data;|text/xml" ) {
                 set req.http.X-SEC-RuleName = "Request content type restricted";
                 set req.http.X-SEC-RuleId   = "1";
                 set req.http.X-SEC-RuleInfo = "Checks for accepted content-types";
