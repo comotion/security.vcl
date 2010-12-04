@@ -14,6 +14,8 @@ Use at your own discretion.
 1. About Security.VCL
 =====================
 
+Security.VCL is a Web Application Firewall implemented in Varnish Control Language.
+
 Security.VCL aims to provide:
  - A standardized framework for security-related filters
  - Several core rule-sets
@@ -30,6 +32,8 @@ scripts on a backend.
 
 To use Security.VCL, you currently have to:
 
+Set up Varnish >= 2.1.x and then:
+
 $ cd vcl/
 $ make
 $ cd ..
@@ -43,6 +47,7 @@ At this point, you should only need to reload your varnish configuration.
 
 You may have to or want to modify config.vcl to fit your needs. 
 Remember that paths must be hardcoded and absolute.
+
 
 3. The Architecture
 ===================
