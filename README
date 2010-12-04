@@ -1,7 +1,7 @@
 Security.VCL
 
-This is work in progress. This was (as is too common) developed internally
-and thrown into a public repository. Use at your own discretion.
+This is work in progress just like any security app should be.
+Use at your own discretion.
 
 =================================
 1. About Security.VCL
@@ -33,16 +33,16 @@ To use Security.VCL, you currently have to:
 $ cd vcl/
 $ make
 $ cd ..
-$ cp -a vcl/ /etc/varnish/security.vcl/ 
- (alternatively you could symlink it, of course).
+$ ln -s $PWD/vcl/ /etc/varnish/security.vcl/ 
 
-Then you edit your normal VCL and add this line near the top:
+then you edit your default.vcl and add this line near the top:
 
 	include "/etc/varnish/security.vcl/main.vcl";
 
 At this point, you should only need to reload your varnish configuration.
-You may have to or want to modify main.vcl to fit your needs. At the
-moment, paths are hardcoded.
+
+You may have to or want to modify config.vcl to fit your needs. 
+Remember that paths must be hardcoded and absolute.
 
 3. The Architecture
 ===================
@@ -51,16 +51,16 @@ Security.VCL currently have two categories of rules: rules generated from
 mod_security, located in vcl/breach/ and our own rules, vcl/modules/.
 
 Security.VCL works by including all modules, then defining a number of
-standard functions. Each module will call sec_sevN, where N is the
-severity, which in turn typically calls error or some other handler.
+standard functions. Each module will set X-SEC-Severity = "N", where N is the
+severity, and call sec_handler which in turn typically calls error or some other handler.
 
 4. Handlers
 ===========
 
-Handlers are still not well developed, but the general concept is that
-Security.VCL either throws an error (vcl_error) of some kind, which can
-potentially redirect the client or do any other synthetic response, or
-Security.VCL can rewrite the original request and send it to a backend
+The general concept is that security.VCL either throws an error 
+(vcl_error) of some kind, which can return a redirect the client,
+or do any other synthetic response, or Security.VCL can log, 
+rewrite the original request and send it to a backend
 designed to do more clever things, like:
 
 - Block the client in a firewall
@@ -68,3 +68,14 @@ designed to do more clever things, like:
 - Test-run the code.
 - Paint you a pretty picture....
 - ....
+
+There are several handlers defined and you can set the default handler in handlers.vcl.
+The default handler rejects detected malicious traffic.
+
+Also you may write your own handler, see handlers.vcl
+
+5. Known Issues
+===============
+
+Let us know! http://github.com/comotion/security.vcl/issues
+

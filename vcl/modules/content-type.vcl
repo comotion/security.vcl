@@ -2,7 +2,7 @@
 # For now
 sub sec_contenttype_sev1 {
         set req.http.X-SEC-Severity = "1";
-        call sec_sev1;
+        call sec_handler;
 }
 
 sub vcl_recv {

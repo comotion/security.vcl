@@ -25,3 +25,7 @@ X-SEC-RuleId
 X-SEC-Rule
 X-SEC-RuleName
 X-SEC-RuleInfo
+# the evil.. gather info about him here
+X-SEC-Client
+# custom client response, in html
+X-SEC-Response

@@ -2,7 +2,7 @@
 # For now
 sub sec_cmd_sev1 {
         set req.http.X-SEC-Severity = "1";
-        call sec_sev1;
+        call sec_handler;
 }
 
 
@@ -63,7 +63,7 @@ sub vcl_recv {
 
         # Checks if someone tries to inject a common command name in URL
         if (req.url ~ "(=|;|&&|%7C%7C)(whoami|who|uptime|last|df).*") {
-                set req.http.X-SEC-RuleName = "Common command in URL: cmd.exe";
+                set req.http.X-SEC-RuleName = "Common command in URL: unixish";
                 set req.http.X-SEC-RuleId   = "7";
                 set req.http.X-SEC-RuleInfo = "Checks if someone tries to inject a common command name in URL: cmd.exe";
                 call sec_cmd_sev1;
