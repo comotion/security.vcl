@@ -19,7 +19,13 @@ include "/etc/varnish/security/modules/restricted-file-extensions.vcl";
 include "/etc/varnish/security/modules/content-encoding.vcl";
 include "/etc/varnish/security/modules/content-type.vcl";
 include "/etc/varnish/security/modules/localfiles.vcl";
+
+# check this module, it is rather harsh
 include "/etc/varnish/security/modules/request.vcl";
+
+# you may or may not want these
+include "/etc/varnish/security/modules/robots.vcl";
+include "/etc/varnish/security/modules/cloak.vcl";
 
 ## User agent checks may be a little too restrictive for your tastes.
 #include "/etc/varnish/security/modules/user-agent.vcl";
