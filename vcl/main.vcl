@@ -57,6 +57,7 @@ include "/etc/varnish/security/handlers.vcl";
  *  803 - Restart, forward to backend honey
  *  804 - Synthetic response
  *  805 - Attempt to drop or reset the request (not implemented yet)
+ *  808 - Raw synthetic deliver
  */
 sub vcl_error {
    # are we insecure?
@@ -99,9 +100,13 @@ sub vcl_error {
 </body></html>
 "};
          return (deliver);
-      } elsif (obj.status == 805){
+      } elsif (obj.status == 805) {
          set obj.status = 501;
          set obj.response = "Get outta here";
+      } elsif (obj.status == 808) {
+         set obj.status = 200;
+         set obj.response = "OK";
+         synthetic req.http.X-SEC-Response;
       }
       # fallthrough to other vcl_error's
    }
