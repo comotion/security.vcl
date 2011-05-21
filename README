@@ -37,11 +37,11 @@ Set up Varnish >= 2.1.x and then:
 $ cd vcl/
 $ make
 $ cd ..
-$ ln -s $PWD/vcl/ /etc/varnish/security.vcl/ 
+$ ln -s $PWD/vcl/ /etc/varnish/security/
 
 then you edit your default.vcl and add this line near the top:
 
-	include "/etc/varnish/security.vcl/main.vcl";
+	include "/etc/varnish/security/main.vcl";
 
 At this point, you should only need to reload your varnish configuration.
 
