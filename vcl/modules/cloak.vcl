@@ -20,9 +20,8 @@ sub vcl_recv {
    set req.http.X-SEC-Module = "cloak";
    
    # I'm sure there are other urls you can try Erik
-   if (req.version ~
    if (req.url ~ "^/%250?$"){
-      set req.http.X-SEC-RuleName = "Bogous request";
+      set req.http.X-SEC-RuleName = "Bogus request";
       set req.http.X-SEC-RuleId = "1";
       set req.http.X-SEC-RuleInfo = "Htrosbif specific";
       # htrosbif attacks! lets try to confuse it
