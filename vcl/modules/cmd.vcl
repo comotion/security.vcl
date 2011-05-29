@@ -54,7 +54,7 @@ sub vcl_recv {
         }
 
         # Checks if someone tries to inject a common command name in URL
-        if (req.url ~ "(=|;|&&|%7C%7C)nc(.exe)?.+(\-(l|p)?)?") {
+        if (req.url ~ "(=|;|&&)nc(.exe)?.+(\-(l|p)?)?") {
                 set req.http.X-SEC-RuleName = "Common command in URL: netcat";
                 set req.http.X-SEC-RuleId   = "6";
                 set req.http.X-SEC-RuleInfo = "Checks if someone tries to inject a common command name in URL: netcat";
@@ -62,10 +62,10 @@ sub vcl_recv {
         }
 
         # Checks if someone tries to inject a common command name in URL
-        if (req.url ~ "(=|;|&&|%7C%7C)(whoami|who|uptime|last|df).*") {
-                set req.http.X-SEC-RuleName = "Common command in URL: unixish";
+        if (req.url ~ "(=|;|&&)(whoami|who|uptime|last|df).*") {
+                set req.http.X-SEC-RuleName = "Unix command in url";
                 set req.http.X-SEC-RuleId   = "7";
-                set req.http.X-SEC-RuleInfo = "Checks if someone tries to inject a common command name in URL: cmd.exe";
+                set req.http.X-SEC-RuleInfo = "Triggers on unix command in URL: whoami/who/uptime/last/df";
                 call sec_cmd_sev1;
         }
 
