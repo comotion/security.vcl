@@ -4,8 +4,7 @@
  * Copyright (C) 2009 Kacper Wysocki
  * Copyright (C) 2009 Edward Bjarte Fjellskål
  *
- * In this file you specify which rulesets to configure,
- * what to log and which handlers to employ.
+ * In this file you specify which rulesets to configure.
  *
  */
 
@@ -14,7 +13,7 @@ include "/etc/varnish/security/modules/demo.vcl";
 include "/etc/varnish/security/modules/php.vcl";
 include "/etc/varnish/security/modules/sql.vcl";
 include "/etc/varnish/security/modules/xss.vcl";
-include "/etc/varnish/security/modules/cmd.vcl";
+#include "/etc/varnish/security/modules/cmd.vcl"; # wget rule kinda sucks for repo
 include "/etc/varnish/security/modules/restricted-file-extensions.vcl";
 include "/etc/varnish/security/modules/content-encoding.vcl";
 include "/etc/varnish/security/modules/content-type.vcl";
@@ -32,5 +31,4 @@ include "/etc/varnish/security/modules/cloak.vcl";
 
 ## The breach2vcl tool is not perfect...
 # include "/etc/varnish/security/breach.vcl";
-
 
