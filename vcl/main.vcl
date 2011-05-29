@@ -33,9 +33,9 @@ sub vcl_recv {
    # gather info about client
    # this is one of the vars guaranteed to be present
    # if and only if your request is inside security.vcl
-   set req.http.X-SEC-Client = client.ip " "
+   set req.http.X-SEC-Client = "[" client.ip "] "
                                req.http.host req.url 
-                               " agent:" req.http.user-agent;
+                               " (" req.http.user-agent ")";
 }
 
 # which modules to use, what to log, how to handle events and honeypot backend definition
@@ -61,15 +61,15 @@ include "/etc/varnish/security/handlers.vcl";
  */
 sub vcl_error {
    # are we insecure?
-   if(req.restarts == 0 && req.http.X-SEC-Client){
+   if(req.restarts == 0 && req.http.X-SEC-Client ){
       # XXX: for some reason one log prints twice... bug?
       call sec_log;
       if (obj.status == 800) {
-         set obj.http.X-SEC-Rule = req.http.X-SEC-Module "-" req.http.X-SEC-RuleId;
+         set obj.http.X-SEC-Rule = req.http.X-SEC-Rule;
          set obj.status = 200;
       } elsif (obj.status == 801) {
          set obj.status = 403;
-         if(req.http.X-SEC-Response){
+         if(req.http.X-SEC-Response ){
             set obj.response = req.http.X-SEC-Response;
          }else{
             set obj.response = "Forbidden";
@@ -77,7 +77,7 @@ sub vcl_error {
       } elsif (obj.status == 802) {
          set obj.status = 302;
          #set obj.response = "Redirected for fun and profit";
-         if(obj.http.X-SEC-Response){
+         if(obj.http.X-SEC-Response ){
             set obj.http.Location = obj.http.X-SEC-Response;
          }else{
             set obj.http.Location = "http://images.google.com/images?q=llama";
@@ -154,7 +154,8 @@ sub sec_drop {
 }
 
 sub sec_magichandler {
-   if(!req.http.X-SEC-Response) { 
+
+   if(!req.http.X-SEC-Response ) { 
       ## The default attack response message, can be overridden by rules.
       set req.http.X-SEC-Response = "Naughty, not nice!";
    }
@@ -164,5 +165,44 @@ sub sec_magichandler {
       return (pass);
    }
 }
+/* You can define how to handle the different severity levels. */
+sub sec_handler {
+   ## retrieve the rule info
+   set req.http.X-SEC-Rule = req.http.X-SEC-Module "-" req.http.X-SEC-RuleId;
+   if(req.http.X-SEC-Rule ~ "^(fooobs)$") {
+      # squelch this rule
+   }else{
+      ## magichandler handles restarts should always be called!
+      call sec_magichandler;
+
+      if(req.http.X-SEC-Severity == "1"){
+         /* we have only one severity for now: this is the default rule */
+         call sec_default_handler;
+      }else{
+         # fallback attack response when severity is off the charts
+         call sec_default_handler;
+      }
+
+      if(!req.http.X-SEC-Client ){ # this variable always present, so rule always false
+         # all functions must be used in vcl, fool compiler by putting them here
+
+         log "security.vcl WONTREACH: available sec handlers";
+         #  the handlers are defined in main.vcl along with the error codes
+         #     handler name  # code # purpose
+         call sec_general;   # 800  # debug handler - delivers X-SEC-Rule to client
+         call sec_reject;    # 801  # 403 reject with message
+         call sec_redirect;  # 802  # 302 redirect
+         call sec_honeypot;  # 803  # restart request with honeypot backend
+         call sec_synthtml;  # 804  # synthesize a response
+         call sec_drop;      # 805  # drop the request (not implemented) 
+         call sec_myhandler; # any  # do your own thing
+         call sec_default_handler;  # fallback handler
+         ## note! the passthru handler really does pass thru
+         # - you must make sure it is the last thing called
+         call sec_passthru;  # n/a  # log client and pass thru to default error logic
+      }
+   }
+}
+
 
 /* vim: set syntax=c tw=76: */
