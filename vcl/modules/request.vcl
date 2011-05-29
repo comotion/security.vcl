@@ -30,4 +30,10 @@ sub vcl_recv {
                 set req.http.X-SEC-RuleId   = "2";
       call sec_request_sev1;
    }
+   if (req.proto ~ "^HTTP/1.1$" && !req.http.host) {
+      set req.http.X-SEC-RuleName = "HTTP/1.1 no host header";
+      set req.http.X-SEC-RuleId = "3";
+   }
+   #if (req.proto ~ "^HTTP/1.0$" && req.http.) {A
+   # awaiting vmod to iterate over headers...
 }
