@@ -33,9 +33,9 @@ sub vcl_recv {
    # gather info about client
    # this is one of the vars guaranteed to be present
    # if and only if your request is inside security.vcl
-   set req.http.X-SEC-Client = "[" client.ip "] "
-                               req.http.host req.url 
-                               " (" req.http.user-agent ")";
+   set req.http.X-SEC-Client = "[" +  client.ip + "] "
+                               + req.http.host + req.url 
+                               + " (" + req.http.user-agent + ")";
 }
 
 # which modules to use, what to log, how to handle events and honeypot backend definition
@@ -87,7 +87,7 @@ sub vcl_error {
          # restart on 2nd backend
          set req.http.X-SEC-Response = "honeypot me";
          set req.backend = sec_honey;
-         restart;
+         return (restart);
       } elsif (obj.status == 804){
          set obj.status = 200;
          set obj.response = "OK";
@@ -96,7 +96,7 @@ sub vcl_error {
             set obj.http.X-SEC-Response = "Synthetic";
          }
          synthetic {"<html><body>
-"} obj.http.X-SEC-Response {"
+"} + obj.http.X-SEC-Response + {"
 </body></html>
 "};
          return (deliver);
@@ -168,7 +168,7 @@ sub sec_magichandler {
 /* You can define how to handle the different severity levels. */
 sub sec_handler {
    ## retrieve the rule info
-   set req.http.X-SEC-Rule = req.http.X-SEC-Module "-" req.http.X-SEC-RuleId;
+   set req.http.X-SEC-Rule = req.http.X-SEC-Module + "-" + req.http.X-SEC-RuleId;
    if(req.http.X-SEC-Rule ~ "^(fooobs)$") {
       # squelch this rule
    }else{
@@ -186,7 +186,7 @@ sub sec_handler {
       if(!req.http.X-SEC-Client ){ # this variable always present, so rule always false
          # all functions must be used in vcl, fool compiler by putting them here
 
-         log "security.vcl WONTREACH: available sec handlers";
+         std.log("security.vcl WONTREACH: available sec handlers");
          #  the handlers are defined in main.vcl along with the error codes
          #     handler name  # code # purpose
          call sec_general;   # 800  # debug handler - delivers X-SEC-Rule to client

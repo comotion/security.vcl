@@ -5,7 +5,7 @@ sub vcl_recv {
       set req.http.X-SEC-RuleId = "1";
       set req.http.X-SEC-RuleInfo = "Hostile response for robots.";
       # I will index myself thanks
-      set req.http.X-Robot = req.http.User-agent " " client.ip;
+      set req.http.X-Robot = req.http.User-agent + " " + client.ip;
       call sec_robot;
    }
 }

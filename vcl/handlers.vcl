@@ -41,10 +41,10 @@ backend sec_honey {
 
 # Here you can specify what gets logged when a rule triggers.
 sub sec_log {
-         log "security.vcl alert xid:" req.xid " " req.proto
-             " [" req.http.X-SEC-Module "-" req.http.X-SEC-RuleId "]"
-             req.http.X-SEC-Client
-             " (" req.http.X-SEC-RuleName ") ";
+         std.log("security.vcl alert xid:" + req.xid + " " + req.proto
+             + " [" + req.http.X-SEC-Module + "-" + req.http.X-SEC-RuleId + "]"
+             + req.http.X-SEC-Client
+             + " (" +  req.http.X-SEC-RuleName + ") ");
 }
 
 
