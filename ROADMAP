@@ -1,4 +1,57 @@
+=====================
+ ROADMAP / TODO list
+=====================
+
 There is always more to be done in a security package :-)
+
+Let's prioritize some milestones, and indicate who's on it.
+Remember that it doesn't matter who is on it, project is still
+small enough that anyone can contribute to any part of it
+.. as long as your contribution is an improvement 
+
+Rules
+=====
+release: always ongoing
+
+new stuff crops up all the time.
+We want generic rules, rules that target specific attacks
+as well as rulesets that are web-application specific
+
+keeping rules up-to-date 
+making appropriate rules case-insensitive (ebf0:gamelinux)
+porting rules from mod_security           (comotion)
+porting rules from VFW                    (escarpellini)
+
+https://github.com/scarpellini/VFW imported rules todo
+(cross-check with security.vcl rules) 
+
+* HTTP RFC ensuring/enforcement.
+* Generic/"WEB-1" threats:
+--- Dir Traversal;
+---  Internal file extensions (SO, Web, VCS, etc);
+---  Unix/Windows commands;
+---  Bad UA (scanners); 
+* Load HTTP BODY (POST) - Prove Of Concept;
+* Injection:
+--- SQL Injection;
+--- SSI Injection; 
+* XSS;
+* Automated tests;
+* Simple Web Interface (Dashboard);
+* Module for handle HTTP BODY (POST) - VMOD;
+* HTTP BODY VMOD improvements:
+--- Handle content-types (webservices);
+---- XML;
+---- JSON;
+* Dynamic Blacklist (Redis, maybe);
+--- AVScan (passive/bground).
+
+
+POST Security VMOD
+==================
+release: 0.9
+
+(escarpellini / comotion)
 
 Most of the exciting stuff will happen once we've build a VMod that gives
 us access to the request body. We need this to 
@@ -6,11 +59,16 @@ us access to the request body. We need this to
  - iterate over POST parameters
  - do other body validation
 
+
+ - VFW web interface to use security.vcl (escarpellini) 
+
+Special-purpose modules
+=======================
+
 modules/cloak.vcl could be even cleverer
 modules/request.vcl:
   awaiting vmod to iterate over headers...
   http 0.9 should send no headers!
-
 todo maybe: 
   http 1.0 cannot have host, vary, warning, proxy-auth, content-md5, alternates,
 Via,Upgrade, Etag, If-none-match, If-unmodified-since, if-match, cache-control, age,
