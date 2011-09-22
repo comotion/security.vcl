@@ -1,5 +1,6 @@
 #!/bin/sh
-for i in modsecurity-apache_2.5.9/rules/modsecurity_crs_[2345]*
+path_to=${1:-crs/rules}
+for i in $path_to/modsecurity_crs_[2345]*
 do 
    v=`basename $i`
    v=${v#modsecurity_crs_}

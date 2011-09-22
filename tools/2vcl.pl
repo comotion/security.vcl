@@ -13,8 +13,8 @@ use strict;
 our $TABLEVEL = 0;
 our $TABSIZE = 3;
 our $TABCHAR = ' ';
-our $DEFAULT_ACTION = q(call sec_sev1;);
-our $DENY_ACTION = q(call sec_sev1;);
+our $DEFAULT_ACTION = q(call sec_default_handler;);
+our $DENY_ACTION = q(call sec_default_handler;);
 
 our $DEBUG = 0;
 
