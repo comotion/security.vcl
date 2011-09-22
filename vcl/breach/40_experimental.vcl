@@ -1,0 +1,116 @@
+sub vcl_recv {
+   set req.http.X-Sec-Module = "2vcl";
+   ## ARGS, 
+   # skipped   ARGS pm  ~ ` ! @ # $ % ^ & * ( ) - + = { } [ ] | : ; \" ' < >
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_PAYLOAD
+   # AC RESTRICTED_CHAR_PAYLOAD 
+   ## Rule: TX contains :RESTRICTED_CHAR_PAYLOAD
+   ## TX, :RESTRICTED_CHAR_COUNT
+   # AC RESTRICTED_CHAR_COUNT 
+   # skipped   TX ge RESTRICTED_CHAR_COUNT 5
+   ## ARGS, 
+   ## Rule: ARGS rx :
+   if(req.url ~ "\W{4,}"){
+      set req.http.X-Sec-RuleInfo = "Restricted Character Anomaly Detection Alert - Repetative Non-Word Characters";
+      set req.http.X-Sec-RuleId = "960024-2";
+      call sec_default_handler;
+   }
+   ## ARGS, 
+   ## Rule: ARGS rx :
+   if(req.url ~ "^"){
+      set req.http.X-Sec-RuleId = "960022-2";
+      # chained rule
+   }
+   ## TX, :re(^ARGS
+   # AC re(^ARGS 
+   # skipped   TX gt re(^ARGS 1
+   ## MATCHED_VAR_NAME, 
+   ## Rule: MATCHED_VAR_NAME rx :
+   ## ARGS, 
+   ## Rule: ARGS rx :
+   if(req.url ~ ".*"){
+      # chained rule
+   }
+   ## TX, :re(HPPNAMEDATA_)
+   # AC re(HPPNAMEDATA_) 
+   ## Rule: TX contains :re(HPPNAMEDATA_)
+   ## TX, :re(HPP_COUNTER_)
+   # AC re(HPP_COUNTER_) 
+   ## Rule: TX rx :re(HPP_COUNTER_)
+}
+
