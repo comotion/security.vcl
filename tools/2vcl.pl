@@ -28,7 +28,7 @@ my $re_vararg = '[\w_-\d\:\/\*&!\|\'()^$]+';
 my $re_op = qq(".*?[^\\\\]"|[^\s"']|'.*?[^\\\\]');
 my $re_var = '[\w_\d]+';
 #my $re_arg = ':[\w\d\*\/\|\'\-()\^\$]+';
-my $re_arg = q(:'.+?[^\\\\]'|:[\w\d\*\/\|\-()\^\$]+);
+my $re_arg = q(:'.+[^\\\\]'|:[_\w\d\*\/\(\)&\^\$-]+|:'/[\w\d\*\/\(\)|\^\$-]/');
 my $re_num = q('?(\d*)'?);
 
 sub skip_rule {
@@ -175,11 +175,15 @@ sub parse_secrule {
    # parse OPERATOR (regex default)
    my $neg_op;
    my $func;
+   print STDERR "parse_ops($ops)\n" if $DEBUG == 3;
    ($func, $ops) = parse_ops($ops);
    # parse VARIABLES
-   print STDERR ";;$vars;;\n" if $DEBUG == 2;
+
+   print STDERR "split_vars(;;$vars;;)\n" if $DEBUG >= 2;
 
    my @var = split_vars($vars);
+
+   print STDERR "each vars..\n" if $DEBUG == 3;
    #my @var = split /\|/, $vars;
    for (@var){
       my ($var, $arg, $neg_var, $amp) = split_args($_);
@@ -200,11 +204,18 @@ sub parse_secrule {
 sub split_vars {
    my ($vars, @var) = @_;
    $vars =~ s/^"(.*)"$/$1/;
+   print STDERR "splitting $vars \n" if $DEBUG >= 2;
+   my $prev = '';
    while($vars){
-      $vars =~ s/([!&]?(?:$re_var)(?:$re_arg)?)\|?//; # welcome to ehll
-      #print "PUSH $1\n";
+      $vars =~ s/^(&?TX|GLOBAL):'?\/([^\/]+)\/?'?// and # Such an ugly hack, doesn't account for TX:'/VAR nor anythin
+         push @var, "$1:re($2)" and next;
+      $vars =~ s/([\!\&]?(?:$re_var)(?:$re_arg)?)\|?//; # welcome to ehll
       push @var, $1;
-      #print "#REDUCE :$vars\n";
+      #print STDERR "PUSH $1\n";
+      #print STDERR "#REDUCE: $vars\n";
+      die "loop detected" if $vars and $prev eq $vars;
+      $prev = $vars;
+
    }
    return @var;
 }
@@ -239,9 +250,10 @@ sub parse_ops {
          $ops = $3;
       }
       # translate pcre to posix regex
-      $ops =~ s/\\?%/%25/g;
-      $ops =~ s/\\"/%22/g;
-      $ops =~ s/\(\?:/\(/g;
+      # no longer! v3 has pcre
+      #$ops =~ s/\\?%/%25/g;
+      #$ops =~ s/\\"/%22/g;
+      #$ops =~ s/\(\?:/\(/g;
       #$ops =~ s/([^\\])([\{\}])/$1\\$2/g;
       #print "OP: $neg_op\@$func $ops\n";
    }else{
