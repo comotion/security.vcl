@@ -1,5 +1,7 @@
 #!/bin/sh
-path_to=${1:-crs/rules}
+
+set -e
+path_to=${1:-crs/*rules}
 for i in $path_to/modsecurity_crs_[2345]*
 do 
    v=`basename $i`
