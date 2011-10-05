@@ -29,3 +29,5 @@ X-SEC-RuleInfo
 X-SEC-Client
 # custom client response, in html
 X-SEC-Response
+# cloak logger stuff
+X-SEC-Cloak-status

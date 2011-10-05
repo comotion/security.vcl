@@ -2,13 +2,11 @@
 # hide headers that would otherwise reveal varnish
 # note: there are other cleverer ways of discovering varnish
 
-import std;
-
 # sec handler 
 sub sec_cloak {
    set req.http.X-SEC-Severity = "1";
    set req.http.X-SEC-Module =  "cloak";
-   std.log("cloak status: " + resp.status);
+   std.log("cloak status: " + req.http.X-SEC-Cloak-status);
 
    error 801 "OK";
 }
@@ -68,7 +66,9 @@ sub vcl_deliver {
       && (resp.status < 400 || resp.status > 405) 
       || resp.status > 503){
 
-      call sec_cloak;
+      # Workaround: in deliver, we can't call our handler which calls error
+      set req.http.X-SEC-Cloak-status = resp.status;
+      return (restart);
    }
 }
 
@@ -83,6 +83,10 @@ sub vcl_recv {
       # htrosbif attacks! lets try to confuse it
       error 100 "continue";
       call sec_handler;
+   }
+   # we restarted from deliver, we wanted the handler
+   if(req.restarts == 1 && req.http.X-SEC-Cloak-status) {
+      call sec_cloak;
    }
 }
 

@@ -25,6 +25,7 @@
  * hardcoded. Blah.
  */
 
+import std;
 
 # clear all internal variables
 include "/etc/varnish/security/build/variables.vcl";
