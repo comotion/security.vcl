@@ -73,4 +73,76 @@ sub vcl_recv {
                 call sec_sql_sev1;
         }
 
+        # Checks if someone tries to use SQL statement in URL: SELECT VERSION
+        if (req.url ~ "(?i).+SELECT.+VERSION") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: SELECT VERSION";
+                set req.http.X-SEC-RuleId   = "9";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: SELECT VERSION";
+                call sec_sql_sev1;
+        }
+
+        # Checks if someone tries to use SQL statement in URL: SHOW CURDATE/CURTIME
+        if (req.url ~ "(?i).+SHOW.+CUR(DATE|TIME)") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: SHOW CURDATE/CURTIME";
+                set req.http.X-SEC-RuleId   = "10";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: SHOW CURDATE/CURTIME";
+                call sec_sql_sev1;
+        }
+
+        # Checks if someone tries to use SQL statement in URL: SELECT SUBSTR
+        if (req.url ~ "(?i).+SELECT.+SUBSTR") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: SELECT SUBSTR";
+                set req.http.X-SEC-RuleId   = "11";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: SELECT SUBSTR";
+                call sec_sql_sev1;
+        }
+
+        # Checks if someone tries to use SQL statement in URL: SELECT INSTR
+        if (req.url ~ "(?i).+SELECT.+INSTR") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: SELECT INSTR";
+                set req.http.X-SEC-RuleId   = "12";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: SELECT INSTR";
+                call sec_sql_sev1;
+        }
+
+        # Checks if someone tries to use SQL statement in URL: SHOW CHARACTER SET
+        if (req.url ~ "(?i).+SHOW.+CHARACTER.+SET") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: SHOW CHARACTER SET";
+                set req.http.X-SEC-RuleId   = "13";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: SHOW CHARACTER SET";
+                call sec_sql_sev1;
+        }
+
+        # Checks if someone tries to use SQL statement in URL: BULK INSERT
+        if (req.url ~ "(?i).+BULK.+INSERT") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: BULK INSERT";
+                set req.http.X-SEC-RuleId   = "14";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: BULK INSERT";
+                call sec_sql_sev1;
+        }
+
+        # Checks if someone tries to use SQL statement in URL: INSERT VALUES
+        if (req.url ~ "(?i).+INSERT.+VALUES") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: INSERT VALUES";
+                set req.http.X-SEC-RuleId   = "15";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: INSERT VALUES";
+                call sec_sql_sev1;
+        }
+
+        # Checks if someone tries to use SQL statement in URL: MySQL Comments /* */
+        if (req.url ~ "(?i).+\%2F\%2A.+\%2A\%2F") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: Comments";
+                set req.http.X-SEC-RuleId   = "16";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: Comments";
+                call sec_sql_sev1;
+        }
+
+        # Checks if someone tries to use SQL statement in URL: SELEC CONCAT
+        if (req.url ~ "(?i).+SELECT.+CONCAT") {
+                set req.http.X-SEC-RuleName = "SQL Injection Attempt: SELECT CONCAT";
+                set req.http.X-SEC-RuleId   = "17";
+                set req.http.X-SEC-RuleInfo = "Checks if someone tries to use SQL statement in URL: SELECT CONCAT";
+                call sec_sql_sev1;
+        }
+
 }
