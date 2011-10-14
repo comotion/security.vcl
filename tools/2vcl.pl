@@ -43,7 +43,7 @@ sub skip_rule {
               REMOTE_ADDR|         # we don't resolve
               RESPONSE_            # any response logic
              )/x or $func =~ 
-      /validate(UrlEncoding|ByteRange)|lt|le|gt|ge|eq|ne|pm/x or
+      /validate(UrlEncoding|ByteRange|Utf8Encoding)|lt|le|gt|ge|eq|ne|pm/x or
       ($var eq 'REQUEST_HEADERS' and not $arg)
 }
 sub emit {
