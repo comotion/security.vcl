@@ -54,6 +54,8 @@ Remember that paths must be hardcoded and absolute.
 
 Security.VCL currently have two categories of rules: rules generated from
 mod_security, located in vcl/breach/ and our own rules, vcl/modules/.
+Ready-to-use mod_security-Rules can be found here:
+https://www.owasp.org/index.php/Category:OWASP_ModSecurity_Core_Rule_Set_Project#tab=Home
 
 Security.VCL works by including all modules, then defining a number of
 standard functions. Each module will set X-SEC-Severity = "N", where N is the
