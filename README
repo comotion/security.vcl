@@ -32,7 +32,7 @@ scripts on a backend.
 
 To use Security.VCL, you currently have to:
 
-Set up Varnish >= 2.1.x and then:
+Set up Varnish >= 3.0.x and then:
 
 $ cd vcl/
 $ make
