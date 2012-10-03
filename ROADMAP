@@ -17,7 +17,8 @@ new stuff crops up all the time.
 We want generic rules, rules that target specific attacks
 as well as rulesets that are web-application specific
 
-keeping rules up-to-date 
+keeping rules up-t
+o-date 
 making appropriate rules case-insensitive (ebf0:gamelinux)
 porting rules from mod_security           (comotion)
 porting rules from VFW                    (escarpellini)
@@ -46,23 +47,34 @@ https://github.com/scarpellini/VFW imported rules todo
 * Dynamic Blacklist (Redis, maybe);
 --- AVScan (passive/bground).
 
-
-POST Security VMOD
+Parse Request VMOD
 ==================
-release: 0.9
+release 0.8
 
-(escarpellini / comotion)
+(escarpellini / comotion / xcir)
 
-Most of the exciting stuff will happen once we've build a VMod that gives
-us access to the request body. We need this to 
+Based on the OWASP work done for Varnish FireWall by 
+escarpellini, xcir has created a VMOD that does pretty much 
+what we needed and more.
+Currently it is capable of parsing post, get and cookie data.
+
+So most of the exciting stuff is about to happen now that this 
+VMOD gives us access to the request body. We need this to 
  - iterate over header names and values
  - iterate over POST parameters
  - do other body validation
 
-Use the url code, auth, crashhandler, sheild vmods?
- - deployment with vmods is rather tricky today, work on this
+Use the url code, auth, crashhandler, sheild VMODs?
+ - There have been improvements regarding deployment with vmods
+ - New version of many of the mentioned VMODs are available
+ - Need an updated list of Security.VCL / Varnish FireWall components
 
- - VFW web interface to use security.vcl (escarpellini) 
+Web Interface
+=============
+This is not part of the VMOD plan anymore, as VFW is legacy. So I add
+it here and hope for the best:
+ - We could use the basic VFW interface to use security.vcl (escarpellini)
+ - We could check options for other IDS/IPS Web UIs (ebf0:gamelinux)
 
 Special-purpose modules
 =======================
