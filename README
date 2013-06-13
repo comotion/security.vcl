@@ -2,12 +2,12 @@ Security.VCL
 
 ===================================
 ===================================
-This project is  motsly deprecated. 
+This project is  mostly deprecated. 
 ===================================
 ===================================
 
 Please use the Varnish Security Firewall:
-https://github.com/comotion/VSF
+ - https://github.com/comotion/VSF
 
 
 =================================
