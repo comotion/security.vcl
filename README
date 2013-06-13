@@ -1,7 +1,14 @@
 Security.VCL
 
-This is work in progress just like any security app should be.
-Use at your own discretion.
+===================================
+===================================
+This project is  motsly deprecated. 
+===================================
+===================================
+
+Please use the Varnish Security Firewall:
+https://github.com/comotion/VSF
+
 
 =================================
 1. About Security.VCL
@@ -10,6 +17,8 @@ Use at your own discretion.
 4. Handlers
 =================================
 
+This is work in progress just like any security app should be.
+Use at your own discretion.
 
 1. About Security.VCL
 =====================
